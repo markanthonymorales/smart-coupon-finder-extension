@@ -1,6 +1,7 @@
 {
   "name": "Smart Coupon Finder",
-  "description": "Smart Savings, Seamless Shopping!",
+  "short_name": "SCF",
+  "description": "Detect and apply the best coupon using AI.",
   "version": "1.0.0",
   "icons": {
     "16": "assets/icons/icon16.png",
@@ -13,12 +14,18 @@
   "content_scripts": [{
     "matches": [ "<all_urls>" ],
     "js": [ "content-scripts/content.ts"],
-    "run_at": "document_start"
+    "run_at": "document_idle"
   }],
   "background": {
     "service_worker": "background.ts",
     "type": "module"
   },
+  "permissions": [
+    "tabs",
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
   "web_accessible_resources": [{
     "matches": ["<all_urls>"],
     "resources": ["assets/*", "data-storage/*"]

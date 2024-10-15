@@ -1,24 +1,35 @@
+<script setup lang="ts">
+  import { ref, type Ref, onMounted, watch } from "vue";
+  import detectVoucherInput from "../composables/detect-voucher-input";
+  import VueTabsChrome from 'vue-tabs-chrome'
+  
+  const statusDiv: Ref<string> = ref('');
+
+  const findCoupon = async () => {
+    // @ts-ignore
+    await chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+    // @ts-ignore
+      chrome.scripting.executeScript({
+        target: {tabId: tabs[0].id},
+        func: detectVoucherInput
+      }, (results: any) => {
+        if (results && results[0] && results[0].result) {
+          statusDiv.value = 'Searching for coupons...';
+        } else {
+          statusDiv.value = 'No voucher input detected on this page.';
+        }
+      });
+    });
+  };
+</script>
 <template>
-  <div class="container">
-    <div class="button" @click="handleClick"></div>
+  <div class="main rounded p-4 border">
+    <div class="row">
+      <div class="col-12">
+        <h3>Find Best Coupon</h3>
+        <button v-on:click="findCoupon">Find Coupons</button>
+        <div>{{ statusDiv }}</div>
+      </div>
+    </div>
   </div>
 </template>
-<script setup>
-function handleClick() {
-  alert('This is a fun Chrome extension.')
-}
-</script>
-<style scoped>
-.button {
-  width: 200px;
-  height: 80px;
-  background: url(../assets/click-here.png) no-repeat;
-  background-size: 100% 100%;
-  position: fixed;
-  top: 50%;
-  margin-top: -40px;
-  left: 0;
-  cursor: pointer;
-  z-index: 1000;
-}
-</style>

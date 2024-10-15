@@ -1,17 +1,12 @@
+import { findCouponFieldAndApply } from '../services/couponService';
 
-// import { createApp } from "vue";
-// import App from "./App.vue";
-
-// window.onload = async () => {
-//   const el = document.querySelector('body');
-//   if (el) {
-//     el.insertAdjacentHTML(
-//       'afterend',
-//       '<div id="crx-app"></div>',
-//     );
-//     const app = createApp(App)
-//     app.mount('#crx-app');
-//   }
-// }
-
-
+// Listener for messages from background or popup
+console.log('// Listener for messages from background or popup');
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log('request.type');
+  console.log(request.type);
+  if (request.type === 'APPLY_COUPON') {
+    findCouponFieldAndApply(document, request.coupon);
+    sendResponse({ status: 'success' });
+  }
+});

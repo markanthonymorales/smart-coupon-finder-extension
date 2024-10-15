@@ -10,3 +10,27 @@ div#app {
     width: 25rem;
     padding: 1rem;
 }
+
+/* --------------------------POP-UP CSS---------------------------- */
+#crx-app {
+    position: fixed;
+    top: -10px;
+    right: 10px;
+    z-index: 99999;
+}
+
+#crx-app:before {
+    content: " ";
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid #e5ebee;
+    position: relative;
+    top: -10px;
+    left: 90px;
+}
+
+#crx-app .main {
+    background-color: #e5ebee;
+}
